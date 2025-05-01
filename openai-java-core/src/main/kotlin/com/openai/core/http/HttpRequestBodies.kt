@@ -54,12 +54,21 @@ internal fun multipartFormData(
                             }
 
                         parts.forEach { (name, bytes) ->
-                            addBinaryBody(
-                                name,
-                                bytes,
-                                ContentType.parseLenient(field.contentType),
-                                field.filename().getOrNull(),
-                            )
+                            if (name == "image" || name == "mask") {
+                                addBinaryBody(
+                                    name,
+                                    bytes,
+                                    ContentType.IMAGE_PNG,
+                                    "image.png",
+                                )
+                            } else {
+                                addBinaryBody(
+                                    name,
+                                    bytes,
+                                    ContentType.parseLenient(field.contentType),
+                                    field.filename().getOrNull(),
+                                )
+                            }
                         }
                     }
                 }
